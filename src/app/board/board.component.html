@@ -1,0 +1,63 @@
+<div class="container">
+  <br>
+  <br>
+  <div class="row">
+    <div class="col l3 s12">
+      <a [class.disabled]="!isJogando()" style="width: 100%" class="waves-effect waves-light btn-large" (click)="reset()">
+        <i class="material-icons right">loop</i> Reiniciar
+      </a>
+    </div>
+    <div class="col l3 s12">
+      <div class="card-panel teal grey darken-1">
+
+        <div class="row" [hidden]="isJogando()">
+          <div class="col s6 center-align">
+            <i class="material-icons medium white-text">done</i>
+            <h4 class="white-text">{{dadosJogo.acertos}}</h4>
+          </div>
+          <div class="col s6 center-align">
+            <i class="material-icons medium white-text">clear</i>
+            <h4 class="white-text">{{dadosJogo.erros}}</h4>
+          </div>
+        </div>
+
+        <div class="row center-align" [hidden]="!isJogando()">
+          <div class=" center-align">
+            <div class="col l12 offset-s2">
+              <h5 class="white-text valign-wrapper"><i class="material-icons small white-text">mood</i> 2650 pontos</h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col l3 s12">
+      <div class="card-panel teal grey darken-1">
+
+        <div class="row">
+          <div class="col s12 center-align">
+            <i class="material-icons large white-text">timer</i>
+            <h3 class="white-text">{{this.dadosJogo.tempo}}</h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col l3 s12">
+      <div class="card-panel teal grey darken-1">
+
+        <div class="row">
+          <div class="col s12 center-align">
+            <i class="material-icons large white-text">stars</i>
+            <h3 class="white-text">{{dadosJogo.top1}}</h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <card *ngFor="let card of cards$ | async; trackBy:trackByCards" [info]="card" (flipped)="flipCard(card)"></card>
+  </div>
+</div>

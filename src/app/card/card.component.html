@@ -1,0 +1,8 @@
+<div class="col xl3">
+  <div class="card-container center-align" >
+    <div class="card z-depth-5 hoverable" [class.flipped]="info.flipped" (click)="flip(info)">
+      <img class="front responsive-img" src="{{ info.url }}" />
+      <img class="back responsive-img" src="{{ backCard.url }}" />
+    </div>
+  </div>
+</div>

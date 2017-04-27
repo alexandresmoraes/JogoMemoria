@@ -16,7 +16,7 @@ export class BoardComponent {
   private timerId: any;
 
   constructor(
-    private dadosJogo: DadosJogo
+    public dadosJogo: DadosJogo
   ) {
     this.dadosJogo.status = STATUS.INICIO;
     this.dadosJogo.acertos = 0;

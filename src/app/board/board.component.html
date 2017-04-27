@@ -58,6 +58,6 @@
   </div>
   <div class="divider"></div>
   <div class="row">
-    <card *ngFor="let card of cards$ | async; trackBy:trackByCards" [info]="card" (flipped)="flipCard(card)"></card>
+    <card *ngFor="let card of cards$ | async;" [info]="card" (flipped)="flipCard(card)"></card>
   </div>
 </div>

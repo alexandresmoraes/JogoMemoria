@@ -30,17 +30,8 @@ export class BoardComponent {
   }
 
   reset(): void {
-    this.jogoService.desvirarCards();
-
-    setTimeout(() => {
-      this.dadosJogo.cards = embaralhar(this.dadosJogo.cards);
-      this.dadosJogo.cards$ = new Observable(o => {
-        o.next(this.dadosJogo.cards);
-      });
-    }, 1000);
-
-    this.jogoService.atualizarStatus(STATUS.INICIO);
-  }
+        this.jogoService.reset();
+    }
 
   flipCard(c: Card): void {
     this.jogoService.atualizarCard(c);

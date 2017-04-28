@@ -18,7 +18,7 @@ export class JogoService {
     atualizarTop1(): void {
         this.dadosJogo.top1 = Number(localStorage.getItem('top1') || 0);
 
-        if (this.dadosJogo.top1 == 0 || this.dadosJogo.points > this.dadosJogo.top1) {            
+        if (this.dadosJogo.top1 == 0 || this.dadosJogo.points > this.dadosJogo.top1) {
             localStorage.setItem('top1', String(this.dadosJogo.points));
             this.dadosJogo.top1 = this.dadosJogo.points == 0 ? 2 : this.dadosJogo.points;
         }
@@ -34,9 +34,11 @@ export class JogoService {
             this.dadosJogo.tempo = 0;
             this.dadosJogo.acertos = 0;
             this.dadosJogo.erros = 0;
+            this.dadosJogo.cardSelecionado = null;
             clearInterval(this.timerId);
         }
-        else if (novo == STATUS.FIM) {            
+        else if (novo == STATUS.FIM) {
+            this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.points =
                 4200 - (this.dadosJogo.erros * (this.dadosJogo.tempo / 100));
             this.atualizarTop1();
@@ -53,7 +55,20 @@ export class JogoService {
         }
     }
 
-    atualizarCard(card: Card): void {
+    reset(): void {
+        this.desvirarCards();
+
+        this.atualizarStatus(STATUS.INICIO);
+
+        this.dadosJogo.cards = embaralhar(duplicarCards());
+        this.dadosJogo.cards$ = new Observable(o => {
+            setTimeout(() => {
+                o.next(this.dadosJogo.cards);
+            }, 1000);
+        });
+    }
+
+    atualizarCard(card: Card): void {        
         card.flipped = !card.flipped;
 
         if (isEmpty(this.dadosJogo.cardSelecionado)) {
@@ -64,7 +79,7 @@ export class JogoService {
             this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.erros++;
             setTimeout(() => {
-                this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === card._id ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
+                card.flipped = !card.flipped;
                 this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
                 this.dadosJogo.cards$ = new Observable(o => {
                     o.next(this.dadosJogo.cards);
@@ -74,7 +89,7 @@ export class JogoService {
         else if (this.dadosJogo.cardSelecionado.name == card.name) {
             this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.acertos++;
-            if (this.dadosJogo.acertos == 8) {
+            if (this.dadosJogo.acertos === 8) {
                 this.atualizarStatus(STATUS.FIM);
             }
         }

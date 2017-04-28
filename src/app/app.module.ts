@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { MaterializeModule } from 'angular2-materialize';
 import { CardComponent } from './card/card.component';
 import { BoardComponent } from './board/board.component';
-import { DadosJogo } from './core/dados-jogo';
+import { DadosJogo } from './core/dados.jogo';
+import { JogoService } from './services/jogo.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { DadosJogo } from './core/dados-jogo';
     FormsModule,
     HttpModule
   ],
-  providers: [DadosJogo],
+  providers: [DadosJogo, JogoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

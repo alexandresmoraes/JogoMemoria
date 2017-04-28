@@ -3,14 +3,14 @@
   <br>
   <div class="row">
     <div class="col l3 s12">
-      <a [class.disabled]="!isJogando()" style="width: 100%" class="waves-effect waves-light btn-large" (click)="reset()">
+      <a [class.disabled]="!isJogando() && !isFim()" style="width: 100%" class="waves-effect waves-light btn-large" (click)="reset()">
         <i class="material-icons right">loop</i> Reiniciar
       </a>
     </div>
     <div class="col l3 s12">
       <div class="card-panel teal grey darken-1">
 
-        <div class="row" [hidden]="isJogando()">
+        <div class="row" [hidden]="isFim()">
           <div class="col s6 center-align">
             <i class="material-icons medium white-text">done</i>
             <h4 class="white-text">{{dadosJogo.acertos}}</h4>
@@ -21,9 +21,9 @@
           </div>
         </div>
 
-        <div class="row" [hidden]="!isJogando()">
+        <div class="row" [hidden]="!isFim()">
           <div class="col s12">
-            <h5 class="white-text valign-wrapper alinhar-centro"><i class="material-icons small white-text">mood</i> 2650 pontos</h5>
+            <h5 class="white-text valign-wrapper alinhar-centro"><i class="material-icons small white-text">mood</i> {{dadosJogo.points | number : '1.0-0'}}</h5>
           </div>
         </div>
 
@@ -56,6 +56,6 @@
   </div>
   <div class="divider"></div>
   <div class="row">
-    <card *ngFor="let card of cards$ | async;" [info]="card" (flipped)="flipCard(card)"></card>
+    <card *ngFor="let card of dadosJogo.cards$ | async; trackBy : trackByCards" [info]="card" (flipped)="flipCard(card)"></card>
   </div>
 </div>

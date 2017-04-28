@@ -19,6 +19,9 @@ export class CardComponent {
     }
 
     flip(info: Card) {
+        if (info.flipped) {
+            return;
+        }
         this.flipped.emit(info);
     }
 }

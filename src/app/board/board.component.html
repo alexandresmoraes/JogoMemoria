@@ -23,7 +23,7 @@
 
         <div class="row" [hidden]="!isFim()">
           <div class="col s12">
-            <h5 class="white-text valign-wrapper alinhar-centro"><i class="material-icons small white-text">mood</i> {{dadosJogo.points | number : '1.0-0'}}</h5>
+            <h5 class="white-text valign-wrapper alinhar-centro"><i class="material-icons small white-text">mood</i> {{dadosJogo.points | number:'1.0-0'}}</h5>
           </div>
         </div>
 
@@ -47,7 +47,7 @@
         <div class="row">
           <div class="col s12 center-align">
             <i class="material-icons large white-text">stars</i>
-            <h3 class="white-text">{{dadosJogo.top1}}</h3>
+            <h3 class="white-text">{{dadosJogo.top1 | number:'1.0-0'}}</h3>
           </div>
         </div>
 

@@ -16,13 +16,12 @@ export class JogoService {
     }
 
     atualizarTop1(): void {
-        debugger;
         this.dadosJogo.top1 = Number(localStorage.getItem('top1') || 0);
 
-        if (this.dadosJogo.top1 == 0 || this.dadosJogo.points > this.dadosJogo.top1) {
+        if (this.dadosJogo.top1 == 0 || this.dadosJogo.points > this.dadosJogo.top1) {            
             localStorage.setItem('top1', String(this.dadosJogo.points));
-            this.dadosJogo.top1 = this.dadosJogo.points;
-        }        
+            this.dadosJogo.top1 = this.dadosJogo.points == 0 ? 2 : this.dadosJogo.points;
+        }
     }
 
     atualizarStatus(novo: STATUS): void {
@@ -40,8 +39,8 @@ export class JogoService {
         else if (novo == STATUS.FIM) {
             debugger;
             this.dadosJogo.points =
-                951 - (this.dadosJogo.erros * (this.dadosJogo.tempo / 100));
-            this.atualizarTop1();            
+                4200 - (this.dadosJogo.erros * (this.dadosJogo.tempo / 100));
+            this.atualizarTop1();
             clearInterval(this.timerId);
         }
         this.dadosJogo.status = novo;
@@ -56,9 +55,8 @@ export class JogoService {
     }
 
     atualizarCard(card: Card): void {
-        //debugger;
         card.flipped = !card.flipped;
-        
+
         if (isEmpty(this.dadosJogo.cardSelecionado)) {
             this.dadosJogo.cardSelecionado = card;
         }
@@ -67,9 +65,6 @@ export class JogoService {
             this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.erros++;
             setTimeout(() => {
-                //c.flipped    = !c.flipped;
-                //card.flipped = !card.flipped;
-                
                 this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === card._id ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
                 this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
                 this.dadosJogo.cards$ = new Observable(o => {

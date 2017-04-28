@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 
 import { Card, CARDS, duplicarCards } from "app/card/card.model";
@@ -33,7 +34,10 @@ export class BoardComponent {
 
     setTimeout(() => {
       this.dadosJogo.cards = embaralhar(this.dadosJogo.cards);
-    }, 600);
+      this.dadosJogo.cards$ = new Observable(o => {
+        o.next(this.dadosJogo.cards);
+      });
+    }, 1000);
 
     this.jogoService.atualizarStatus(STATUS.INICIO);
   }
@@ -44,7 +48,5 @@ export class BoardComponent {
     if (this.dadosJogo.status == STATUS.INICIO) {
       this.jogoService.atualizarStatus(STATUS.JOGANDO);
     }
-
-    //this.dadosJogo.top1 = 100;    
   }
 }

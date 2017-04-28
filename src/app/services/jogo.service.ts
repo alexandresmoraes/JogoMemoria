@@ -36,8 +36,7 @@ export class JogoService {
             this.dadosJogo.erros = 0;
             clearInterval(this.timerId);
         }
-        else if (novo == STATUS.FIM) {
-            debugger;
+        else if (novo == STATUS.FIM) {            
             this.dadosJogo.points =
                 4200 - (this.dadosJogo.erros * (this.dadosJogo.tempo / 100));
             this.atualizarTop1();

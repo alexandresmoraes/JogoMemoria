@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class JogoService {
     private timerId: any;
+    private desvirarDuplaCards: any;
 
     constructor(private dadosJogo: DadosJogo) {
         this.atualizarTop1();
@@ -60,15 +61,16 @@ export class JogoService {
 
         this.atualizarStatus(STATUS.INICIO);
 
-        this.dadosJogo.cards = embaralhar(duplicarCards());
-        this.dadosJogo.cards$ = new Observable(o => {            
+        //this.dadosJogo.cards = embaralhar(duplicarCards());
+        this.dadosJogo.cards = embaralhar(this.dadosJogo.cards);
+        this.dadosJogo.cards$ = new Observable(o => {
             setTimeout(() => {
-                o.next(this.dadosJogo.cards);
-            }, 600);
+                o.next(this.dadosJogo.cards);                
+            }, 1000);
         });
     }
 
-    atualizarCard(card: Card): void {        
+    atualizarCard(card: Card): void {
         card.flipped = !card.flipped;
 
         if (isEmpty(this.dadosJogo.cardSelecionado)) {
@@ -79,11 +81,13 @@ export class JogoService {
             this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.erros++;
             setTimeout(() => {
-                card.flipped = !card.flipped;
-                this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);                
-                this.dadosJogo.cards$ = new Observable(o => {
-                    o.next(this.dadosJogo.cards);
-                });
+                if (this.dadosJogo.status === STATUS.JOGANDO) {
+                    card.flipped = !card.flipped;
+                    this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
+                    this.dadosJogo.cards$ = new Observable(o => {
+                        o.next(this.dadosJogo.cards);
+                    });
+                }
             }, 1000);
         }
         else if (this.dadosJogo.cardSelecionado.name == card.name) {

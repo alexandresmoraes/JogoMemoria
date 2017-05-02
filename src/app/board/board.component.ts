@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Card, CARDS, duplicarCards } from "app/card/card.model";
 import { embaralhar } from "app/core/array";

@@ -9,8 +9,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class JogoService {
-    private timerId: any;
-    private desvirarDuplaCards: any;
+    private timerId: any;    
 
     constructor(private dadosJogo: DadosJogo) {
         this.atualizarTop1();
@@ -57,17 +56,19 @@ export class JogoService {
     }
 
     reset(): void {
+         this.atualizarStatus(STATUS.INICIO);
+
         this.desvirarCards();
-
-        this.atualizarStatus(STATUS.INICIO);
-
-        //this.dadosJogo.cards = embaralhar(duplicarCards());
-        this.dadosJogo.cards = embaralhar(this.dadosJogo.cards);
-        this.dadosJogo.cards$ = new Observable(o => {
-            setTimeout(() => {
-                o.next(this.dadosJogo.cards);                
-            }, 1000);
-        });
+        
+        //setTimeout(() => {
+            this.dadosJogo.cards$ = new Observable(o => {
+                setTimeout(() => {
+                    this.dadosJogo.cards = embaralhar(duplicarCards());
+                    o.next(this.dadosJogo.cards);
+                    this.desvirarCards();
+                }, 1000);
+            });
+        //}, 800);
     }
 
     atualizarCard(card: Card): void {
@@ -81,14 +82,12 @@ export class JogoService {
             this.dadosJogo.cardSelecionado = null;
             this.dadosJogo.erros++;
             setTimeout(() => {
-                if (this.dadosJogo.status === STATUS.JOGANDO) {
-                    card.flipped = !card.flipped;
-                    this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
-                    this.dadosJogo.cards$ = new Observable(o => {
-                        o.next(this.dadosJogo.cards);
-                    });
-                }
-            }, 1000);
+                card.flipped = !card.flipped;
+                this.dadosJogo.cards = this.dadosJogo.cards.map(c => c._id === ultimoid ? { _id: c._id, name: c.name, flipped: !c.flipped, url: c.url } : c);
+                this.dadosJogo.cards$ = new Observable(o => {
+                    o.next(this.dadosJogo.cards);
+                });
+            }, 600);
         }
         else if (this.dadosJogo.cardSelecionado.name == card.name) {
             this.dadosJogo.cardSelecionado = null;

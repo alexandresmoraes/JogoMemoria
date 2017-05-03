@@ -9,12 +9,14 @@ import { CardComponent } from './card/card.component';
 import { BoardComponent } from './board/board.component';
 import { DadosJogo } from './core/dados.jogo';
 import { JogoService } from './services/jogo.service';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
-    BoardComponent
+    BoardComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

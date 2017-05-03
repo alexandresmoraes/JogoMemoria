@@ -1,3 +1,4 @@
+import { isEmpty } from 'app/core/validators';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -30,8 +31,12 @@ export class BoardComponent {
   }
 
   reset(): void {
-        this.jogoService.reset();
-    }
+    this.jogoService.reset();
+  }
+
+  isEmpty(o: any): Boolean {
+    return isEmpty(o);
+  }
 
   flipCard(c: Card): void {
     this.jogoService.atualizarCard(c);

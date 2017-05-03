@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class JogoService {
-    private timerId: any;    
+    private timerId: any;
 
     constructor(private dadosJogo: DadosJogo) {
         this.atualizarTop1();
@@ -56,19 +56,17 @@ export class JogoService {
     }
 
     reset(): void {
-         this.atualizarStatus(STATUS.INICIO);
+        this.atualizarStatus(STATUS.INICIO);
 
         this.desvirarCards();
-        
-        //setTimeout(() => {
-            this.dadosJogo.cards$ = new Observable(o => {
-                setTimeout(() => {
-                    this.dadosJogo.cards = embaralhar(duplicarCards());
-                    o.next(this.dadosJogo.cards);
-                    this.desvirarCards();
-                }, 1000);
-            });
-        //}, 800);
+
+        this.dadosJogo.cards$ = new Observable(o => {
+            setTimeout(() => {
+                this.dadosJogo.cards = embaralhar(duplicarCards());
+                o.next(this.dadosJogo.cards);
+                this.desvirarCards();
+            }, 1000);
+        });
     }
 
     atualizarCard(card: Card): void {

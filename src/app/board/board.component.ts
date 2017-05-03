@@ -34,10 +34,6 @@ export class BoardComponent {
     this.jogoService.reset();
   }
 
-  isEmpty(o: any): Boolean {
-    return isEmpty(o);
-  }
-
   flipCard(c: Card): void {
     this.jogoService.atualizarCard(c);
 
